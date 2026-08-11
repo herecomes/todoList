@@ -1,6 +1,6 @@
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa6";
 
-const Footer = () => {
+export const Footer = () => {
     return (
         <footer>
             <div className="links">
