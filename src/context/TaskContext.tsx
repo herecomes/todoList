@@ -1,53 +1,68 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
+
+type Task = {
+  id: number,
+  date: Date,
+  name: string,
+  descr: string,
+  done: boolean
+}
 
 type TasksContextType = {
-    overallTasks: number,
-    doneTasks: number,
-    addOverallTasks: () => void,
-    subOverallTasks: () => void
+  tasks: Task[],
+  addTask: (t: Task) => void,
+  removeTask: (id: number) => void,
+  toggleTask: (id: number) => void
 };
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined);
 
-export const TasksProvider = ({children}: { children: React.ReactNode }) => {
-    const [overallTasks, setOverallTasks] = useState<number>(() => {
-        const storage = localStorage.getItem("overallTasks");
-        if(!storage) return 0
+export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const stored = localStorage.getItem("tasks");
+    if(!stored) return [];
 
-        const saved = Number.parseInt(storage,10);
-        return Number.isNaN(saved) ? 0 : saved;
-    });
-    const [doneTasks, setDoneTasks] = useState<number>(() => {
-        const storage = localStorage.getItem("doneTasks");
-        if(!storage) return 0
-
-        const saved = Number.parseInt(storage,10);
-        return Number.isNaN(saved) ? 0 : saved;
-    });
-
-    useEffect(()=> {
-        localStorage.setItem("overallTasks", String(overallTasks));
-    },[overallTasks]);
-    useEffect(()=> {
-        localStorage.setItem("doneTasks", String(doneTasks));
-    },[doneTasks]);
-
-    const addOverallTasks = () => {
-        setOverallTasks((prev) => prev + 1);
+    try{
+      const parsed = JSON.parse(stored);
+      return parsed.map((p: Task) => ({...p, date: new Date(p.date)}));
+    } catch {
+      return []
     }
-    const subOverallTasks = () => {
-        setOverallTasks((prev) => prev !== 0 ? prev - 1 : 0);
-    }
+  });
 
-    return (
-        <TasksContext.Provider value={{overallTasks, doneTasks, addOverallTasks, subOverallTasks}}>
-            {children}
-        </TasksContext.Provider>
-    );
-}
+  const addTask = useCallback((t: Task) => {
+    setTasks((prev) => prev.concat(t));
+  },[]);
+
+  const removeTask = useCallback((id: number) => {
+    setTasks((prev) => prev.filter(f => f.id !== id));
+  },[]);
+
+  const toggleTask = useCallback((id: number) => {
+    setTasks((prev) => prev.map(f => f.id === id ? { ...f, done: !f.done } : f));
+  },[]);
+
+  useEffect(()=> {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  },[tasks])
+
+  const value = useMemo(
+    () => ({
+      tasks,
+      addTask,
+      removeTask,
+      toggleTask,
+    }),
+    [tasks, addTask, removeTask, toggleTask]
+  );
+
+  return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>;
+};
 
 export const useTasks = () => {
-    const context = useContext(TasksContext);
-    if(!context || context === undefined) throw new Error("useTasks must be used within TasksProvider");
-    return context;
+  const context = useContext(TasksContext);
+  if (!context) {
+    throw new Error("useTasks must be used within TasksProvider");
+  }
+  return context;
 };
