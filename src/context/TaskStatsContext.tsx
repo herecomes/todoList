@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo, useCallback } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useTasks } from "./TaskContext";
 
 type TasksStats = {
@@ -7,43 +7,19 @@ type TasksStats = {
     percentage: number
 }
 
-type TasksStatsContextType = {
-    stats: TasksStats
-}
-
-const TasksStatsContext = createContext<TasksStatsContextType | undefined>(undefined);
+const TasksStatsContext = createContext<TasksStats | undefined>(undefined);
 
 export const TaskStatsProvider = ({children}: {children: React.ReactNode}) => {
-    const [stats, setStats] = useState<TasksStats>(() => {
-        const saved = localStorage.getItem("TasksStats");
-        if(!saved) return;
-        try {
-            return JSON.parse(saved);
-        } catch {
-            throw new Error("Parsing error");
-        }
-    });
-
     const {tasks} = useTasks();
-    let doneC = 0;
-    let undoneC = 0;
-    let percentageC = 0;
-    const call = useCallback(() => {
-        tasks.forEach(e => {
-            e.done ? ++doneC : ++undoneC; 
-        });
-        percentageC = (doneC / doneC + undoneC) * 100;
-
-        if(!percentageC || percentageC === Infinity) throw new RangeError("Division by zero is not allowed.");
-
-        setStats({done: doneC,undone: undoneC,percentage: percentageC});
-    },[doneC, undoneC, percentageC]);
-
-    localStorage.setItem("TasksStats", JSON.stringify(stats));
-
-    const value = useMemo(() => ({
-        stats
-    }), [stats]);
+    const value = useMemo(() => {
+        const stats: TasksStats = {done:0, undone: 0, percentage: 0};
+        const total = tasks.length;
+        if(total === 0) return stats;
+        stats.done = tasks.filter((t) => t.done).length;
+        stats.undone = total - stats.done;
+        stats.percentage = Math.round((stats.done / total) * 100);
+        return stats;
+    },[tasks]);
 
     return <TasksStatsContext.Provider value={value}>{children}</TasksStatsContext.Provider>
 }
