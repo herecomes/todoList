@@ -1,8 +1,12 @@
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa6";
 
-export const Footer = () => {
+type className = {
+    className: string
+}
+
+export const Footer = ({className}: className) => {
     return (
-        <footer>
+        <footer className={className}>
             <div className="links">
                 <a href="">
                     <FaLinkedin/>

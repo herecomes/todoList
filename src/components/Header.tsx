@@ -1,8 +1,12 @@
 import { FaBarsStaggered } from "react-icons/fa6";
 
-export const Header = () => {
+type className = {
+    className: string
+}
+
+export const Header = ({className}: className) => {
     return (
-        <header>
+        <header className={className}>
             <div className="left">
                 <a href="/">
                     <img src="../public/hc_logo.webp" alt="" />

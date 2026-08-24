@@ -3,14 +3,24 @@ import { Header } from './components/Header.tsx'
 import { Footer } from './components/Footer.tsx'
 import { DateSelector } from './components/DateSelector.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
+import { TasksProvider } from './context/TaskContext.tsx'
+import { TaskStatsProvider } from './context/TaskStatsContext.tsx'
 
 function App() {
   return (
-    <ErrorBoundary>
-      <Header></Header>
-      <DateSelector></DateSelector>
-      <Footer></Footer>
-    </ErrorBoundary>
+    <TasksProvider>
+      <TaskStatsProvider>
+        <ErrorBoundary>
+          <div className="bg-sky-800 App flex flex-col min-h-screen w-full p-4 rounded-md animate-bgPulse">
+            <Header className="bg-sky-800" />
+            <div className="flex-grow bg-sky-800">
+              <DateSelector />
+            </div>
+            <Footer className="bg-sky-800" />
+          </div>
+        </ErrorBoundary>
+      </TaskStatsProvider>
+    </TasksProvider >
   )
 }
 
