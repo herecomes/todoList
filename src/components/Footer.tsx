@@ -7,18 +7,18 @@ type className = {
 export const Footer = ({className}: className) => {
     return (
         <footer className={className}>
-            <div className="links">
+            <div className="links flex flex-row justify-evenly w-[300px]">
                 <a href="">
-                    <FaLinkedin/>
+                    <FaLinkedin className="w-[70px] h-[70px]"/>
                 </a>
                 <a href="">
-                    <FaGithub/>
+                    <FaGithub className="w-[70px] h-[70px]"/>
                 </a>
                 <a href="">
-                    <FaEnvelope/>
+                    <FaEnvelope className="w-[70px] h-[70px]"/>
                 </a>
             </div>
-            <div className="copyright">
+            <div className="copyright mt-4">
                 Copyright © 2026 Herecomes
             </div>
         </footer>

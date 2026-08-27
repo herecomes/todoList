@@ -11,12 +11,12 @@ function App() {
     <TasksProvider>
       <TaskStatsProvider>
         <ErrorBoundary>
-          <div className="bg-sky-800 App flex flex-col min-h-screen w-full p-4 rounded-md animate-bgPulse">
-            <Header className="bg-sky-800" />
-            <div className="flex-grow bg-sky-800">
+          <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
+            <Header className="pb-4 flex flex-row justify-between" />
+            <div className="flex-grow text-white">
               <DateSelector />
             </div>
-            <Footer className="bg-sky-800" />
+            <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
           </div>
         </ErrorBoundary>
       </TaskStatsProvider>
