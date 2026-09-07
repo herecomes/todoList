@@ -5,6 +5,8 @@ import { DateSelector } from './components/DateSelector.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 import { TasksProvider } from './context/TaskContext.tsx'
 import { TaskStatsProvider } from './context/TaskStatsContext.tsx'
+import { Weeks } from './components/Weeks.tsx'
+import { DateProvider } from './context/DateContext.tsx'
 
 function App() {
   return (
@@ -14,7 +16,10 @@ function App() {
           <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
             <Header className="pb-4 flex flex-row justify-between" />
             <div className="flex-grow text-white">
-              <DateSelector />
+              <DateProvider>
+                <DateSelector />
+                <Weeks />
+              </DateProvider>
             </div>
             <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
           </div>
