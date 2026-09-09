@@ -42,6 +42,6 @@ export const DateProvider = ({children}: {children: React.ReactNode}) => {
 
 export const useDate = () => {
     const context = useContext(DateContext);
-    if(!context) throw new Error("useTasks must be used within TasksProvider");
+    if(!context) throw new Error("useDate must be used within DateProvider");
     return context;
 };

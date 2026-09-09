@@ -7,23 +7,39 @@ import { TasksProvider } from './context/TaskContext.tsx'
 import { TaskStatsProvider } from './context/TaskStatsContext.tsx'
 import { Weeks } from './components/Weeks.tsx'
 import { DateProvider } from './context/DateContext.tsx'
+import { useState } from 'react'
+import { TodoModal } from './components/TodoModal.tsx'
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleOpenModal = (d: Date | null) => {
+    setSelectedDate(d);
+    setIsModalOpen(true);
+  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  }
+
   return (
     <TasksProvider>
       <TaskStatsProvider>
-        <ErrorBoundary>
-          <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
-            <Header className="pb-4 flex flex-row justify-between" />
-            <div className="flex-grow text-white">
-              <DateProvider>
+        <DateProvider>
+          <ErrorBoundary>
+            <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
+              <Header className="pb-4 flex flex-row justify-between" />
+              <div className="flex-grow text-white">
                 <DateSelector />
-                <Weeks />
-              </DateProvider>
+                <Weeks handleOpenModal={handleOpenModal}/>
+              </div>
+              <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
             </div>
-            <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
-          </div>
-        </ErrorBoundary>
+            <div className="modal">
+              <TodoModal isModalOpen={isModalOpen} selectedDate={selectedDate} handleCloseModal={handleCloseModal}/>
+            </div>
+          </ErrorBoundary>
+        </DateProvider>
       </TaskStatsProvider>
     </TasksProvider >
   )
