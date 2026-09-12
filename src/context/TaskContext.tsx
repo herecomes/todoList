@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
+import { DateTime } from "luxon";
 
 type Task = {
   id: number,
-  date: Date,
+  date: string,
   name: string,
   descr: string,
   done: boolean
@@ -24,8 +25,8 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
     try{
       const parsed = JSON.parse(stored);
-      return parsed.map(function(p: Task) {
-        const d = new Date(p.date);
+      return parsed.map((p: Task) => {
+        const d = DateTime.fromISO(p.date).toJSDate();
         return {...p, date: isNaN(d.getTime()) ? new Date() : d}
       });
     } catch {
@@ -46,7 +47,11 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   },[]);
 
   useEffect(()=> {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const serialized = tasks.map((t) => ({
+      ...t,
+      date: DateTime.fromJSDate(new Date(t.date)).toISODate(),
+    }));
+    localStorage.setItem("tasks", JSON.stringify(serialized));
   },[tasks])
 
   const value = useMemo(

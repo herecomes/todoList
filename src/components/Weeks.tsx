@@ -1,6 +1,8 @@
 import { useDate } from "../context/DateContext";
+import { DateTime } from "luxon";
+
 type WeeksProps = {
-    handleOpenModal: (d: Date | null) => void;
+    handleOpenModal: (d: string) => void;
 };
 export const Weeks = ({handleOpenModal}: WeeksProps) => {
     const {monthIndex, year} = useDate();
@@ -10,8 +12,9 @@ export const Weeks = ({handleOpenModal}: WeeksProps) => {
     const firstDay = ((new Date(year, monthIndex, 1).getDay()) + 6) % 7;
     const firstDayArr = Array.from({ length: firstDay }, (_, i) => i);
     const clickedDate = (i: number) => {
-        const dateClicked = new Date(year, monthIndex, i);
-        handleOpenModal(dateClicked);
+        // const dateClicked = new Date(year, monthIndex, i);
+        const dateClicked = DateTime.local(year, monthIndex + 1, i).toISO();
+        handleOpenModal(dateClicked ? dateClicked : DateTime.now().toISO());
     }
     return (
         <section id="weeks">
@@ -27,7 +30,7 @@ export const Weeks = ({handleOpenModal}: WeeksProps) => {
                             return (
                                 <div className="day" key={i}>
                                     {d + 1}
-                                    <button onClick={() => clickedDate(d + 1)}>Click me</button>
+                                    <button className="border border-white" onClick={() => clickedDate(d + 1)}>Click me</button>
                                 </div>
                             )
                         })
