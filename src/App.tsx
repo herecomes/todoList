@@ -8,14 +8,20 @@ import { TaskStatsProvider } from './context/TaskStatsContext.tsx'
 import { Weeks } from './components/Weeks.tsx'
 import { DateProvider } from './context/DateContext.tsx'
 import { useState } from 'react'
-import { TodoModal } from './components/TodoModal.tsx'
+import { TodoAddModal } from './components/TodoAddModal.tsx'
+import { TodoEditModal } from './components/TodoEditModal.tsx'
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTaskId, setSelectedTaskId] = useState<number>();
 
-  const handleOpenModal = (d: string) => {
+  const handleOpenAddModal = (d: string) => {
     setSelectedDate(d);
+    setIsModalOpen(true);
+  }
+  const handleOpenEditModal = (d:number) => {
+    setSelectedTaskId(d);
     setIsModalOpen(true);
   }
   const handleCloseModal = () => {
@@ -31,12 +37,13 @@ function App() {
               <Header className="pb-4 flex flex-row justify-between" />
               <div className="flex-grow text-white">
                 <DateSelector />
-                <Weeks handleOpenModal={handleOpenModal}/>
+                <Weeks handleOpenAddModal={handleOpenAddModal} handleOpenEditModal={handleOpenEditModal}/>
               </div>
               <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
             </div>
             <div className="modal">
-              <TodoModal isModalOpen={isModalOpen} selectedDate={selectedDate} handleCloseModal={handleCloseModal}/>
+              <TodoAddModal isModalOpen={isModalOpen} selectedDate={selectedDate} handleCloseModal={handleCloseModal}/>
+              <TodoEditModal isModalOpen={isModalOpen} selectedTaskId={selectedTaskId} handleCloseModal={handleCloseModal}/>
             </div>
           </ErrorBoundary>
         </DateProvider>

@@ -6,10 +6,10 @@ type TodoModalType = {
     handleCloseModal: () => void
 }
 
-export const TodoModal = ({ isModalOpen, selectedDate, handleCloseModal }: TodoModalType) => {
+export const TodoAddModal = ({ isModalOpen, selectedDate, handleCloseModal }: TodoModalType) => {
     const {tasks,addTask} = useTasks();
 
-    if (!isModalOpen) return null
+    if (!isModalOpen || (isModalOpen && !selectedDate)) return null
     console.log(selectedDate);
 
     const idOfLastTask = tasks.length ? tasks[tasks.length - 1].id + 1 : 0;

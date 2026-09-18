@@ -26,8 +26,9 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     try{
       const parsed = JSON.parse(stored);
       return parsed.map((p: Task) => {
-        const d = DateTime.fromISO(p.date).toJSDate();
-        return {...p, date: isNaN(d.getTime()) ? new Date() : d}
+        const parsedDate = p.date;
+        const newDate = DateTime.now().toISO()
+        return {...p, date: parsedDate ? parsedDate : newDate}
       });
     } catch {
       return []
