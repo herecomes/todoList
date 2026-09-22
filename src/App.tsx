@@ -12,20 +12,20 @@ import { TodoAddModal } from './components/TodoAddModal.tsx'
 import { TodoEditModal } from './components/TodoEditModal.tsx'
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTaskId, setSelectedTaskId] = useState<number>();
 
   const handleOpenAddModal = (d: string) => {
     setSelectedDate(d);
-    setIsModalOpen(true);
+    setIsModalOpen("addModal");
   }
   const handleOpenEditModal = (d:number) => {
     setSelectedTaskId(d);
-    setIsModalOpen(true);
+    setIsModalOpen("editModal");
   }
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen("");
   }
 
   return (

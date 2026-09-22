@@ -8,7 +8,7 @@ type WeeksProps = {
 };
 export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
     const {monthIndex, year} = useDate();
-    const {tasks} = useTasks();
+    const {tasks, toggleTask} = useTasks();
 
     const daysCalc = (new Date(year, monthIndex + 1, 0)).getDate();
     const daysArr = Array.from({ length: daysCalc }, (_, i) => i);
@@ -28,7 +28,12 @@ export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
 
         return (
             dayTasks.map((t) => {
-                return (<div key={t.id} onClick={() => handleOpenEditModal(t.id)}>{t.name}</div>);
+                return (
+                    <div key={t.id} className="day-task">
+                        <span onClick={() => handleOpenEditModal(t.id)}>{t.name}</span>
+                        <input type="checkbox" name="done" id="done" checked={t.done} onChange={() => toggleTask(t.id)}/>
+                    </div>
+                );
             })
         );
     };

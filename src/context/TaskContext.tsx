@@ -12,6 +12,7 @@ type Task = {
 type TasksContextType = {
   tasks: Task[],
   addTask: (t: Task) => void,
+  editTask: (id: number, name: string, descr: string) => void,
   removeTask: (id: number) => void,
   toggleTask: (id: number) => void
 };
@@ -47,6 +48,10 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks((prev) => prev.map(f => f.id === id ? { ...f, done: !f.done } : f));
   },[]);
 
+  const editTask = useCallback((id: number, name: string, descr: string) => {
+    setTasks((prev) => prev.map(f => f.id === id ? { ...f, name: name, descr: descr } : f));
+  },[]);
+
   useEffect(()=> {
     const serialized = tasks.map((t) => ({
       ...t,
@@ -61,8 +66,9 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
       addTask,
       removeTask,
       toggleTask,
+      editTask,
     }),
-    [tasks, addTask, removeTask, toggleTask]
+    [tasks, addTask, removeTask, toggleTask, editTask]
   );
 
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>;

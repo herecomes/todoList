@@ -1,7 +1,7 @@
 import { useTasks } from "../context/TaskContext"
 
 type TodoModalType = {
-    isModalOpen: boolean,
+    isModalOpen: string,
     selectedDate: string,
     handleCloseModal: () => void
 }
@@ -9,7 +9,7 @@ type TodoModalType = {
 export const TodoAddModal = ({ isModalOpen, selectedDate, handleCloseModal }: TodoModalType) => {
     const {tasks,addTask} = useTasks();
 
-    if (!isModalOpen || (isModalOpen && !selectedDate)) return null
+    if (!isModalOpen || (isModalOpen && !selectedDate) || (isModalOpen && isModalOpen != "addModal")) return null
     console.log(selectedDate);
 
     const idOfLastTask = tasks.length ? tasks[tasks.length - 1].id + 1 : 0;

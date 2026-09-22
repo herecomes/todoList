@@ -1,42 +1,38 @@
 import { useTasks } from "../context/TaskContext"
 
 type TodoModalType = {
-    isModalOpen: boolean,
+    isModalOpen: string,
     selectedTaskId: number | undefined,
     handleCloseModal: () => void
 }
 
 export const TodoEditModal = ({ isModalOpen, selectedTaskId, handleCloseModal }: TodoModalType) => {
-    const {tasks} = useTasks();
+    const {tasks, editTask, toggleTask} = useTasks();
 
-    if (!isModalOpen || (isModalOpen && selectedTaskId === null || undefined)) return null
+    if (!isModalOpen || (isModalOpen && (selectedTaskId === null || selectedTaskId === undefined)) || (isModalOpen && isModalOpen != "editModal")) return null
     console.log(selectedTaskId);
     
-    const selectedTask = tasks[selectedTaskId!]
-    
-    // const idOfLastTask = tasks.length ? tasks[tasks.length - 1].id + 1 : 0;
+    const selectedTask = tasks.find(t => t.id === selectedTaskId);
+    if (!selectedTask) return null;
 
-    // const taskSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     console.log(e);
+    const taskEdit = (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(e);
 
-
-    //     addTask({
-    //         id: idOfLastTask,
-    //         date: selectedDate,
-    //         name: e.currentTarget.taskTitle.value,
-    //         descr: e.currentTarget.descr.value,
-    //         done: e.currentTarget.done.checked
-    //     })
-    //     handleCloseModal();
-    // }
+        editTask(
+            selectedTask.id,
+            e.currentTarget.taskTitle.value,
+            e.currentTarget.descr.value
+        )
+        handleCloseModal();
+    }
 
     return (
         <div className="border border-white p-5 relative">
-            <form className="flex gap-2 text-white">
-                <input className="border border-white" type="text" name="taskTitle" id="taskTitle" value={selectedTask.name}/>
-                <textarea name="descr" id="descr" className="border border-white" value={selectedTask.descr}></textarea>
-                <input type="checkbox" name="done" id="done" checked={selectedTask.done}/>
+            <form className="flex gap-2 text-white" onSubmit={taskEdit} key={selectedTask.id}>
+                <input className="border border-white" type="text" name="taskTitle" id="taskTitle" defaultValue={selectedTask.name}/>
+                <textarea name="descr" id="descr" className="border border-white" defaultValue={selectedTask.descr}></textarea>
+                <input type="checkbox" name="done" id="done" checked={selectedTask.done} onChange={() => toggleTask(selectedTask.id)}/>
                 <label htmlFor="done">Is it done?</label>
                 <button>Submit</button>
             </form>
