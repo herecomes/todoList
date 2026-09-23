@@ -1,10 +1,17 @@
 import { FaBarsStaggered } from "react-icons/fa6";
+import { useTasks } from "../context/TaskContext";
 
 type className = {
     className: string
 }
 
 export const Header = ({className}: className) => {
+    const {tasks} = useTasks();
+
+    const overall = tasks.length;
+    const done = tasks.filter(t => t.done === true).length;
+    const percentage = (done/overall) * 100;
+
     return (
         <header className={className}>
             <div className="left flex w-1/5 items-center">
@@ -18,13 +25,14 @@ export const Header = ({className}: className) => {
             <div className="center w-3/5 flex items-center">
                 <input type="text" name="search" id="search" className="p-4 bg-white w-full rounded-4xl" />
             </div>
-            <div className="right w-1/5 flex items-center justify-end text-white">
+            <div className="right w-1/5 flex flex-col items-center justify-center text-white">
                 <div className="counter">
-                    12/35
+                    {/* {done}/{overall} */}
+                    {percentage === 100 ? "Great u have done all the tasks" : done + "/" + overall}
                 </div>
-                <div className="countBar">
-                    <span className="below"></span>
-                    <span className="above"></span>
+                <div className={`countBar w-full h-[3px] relative ${percentage === 100 && "done"}`}>
+                    <span className="below block h-full bg-white rounded-[10px]" key={"percentageOverall_" + overall}></span>
+                    <span className="above block h-full absolute top-[0px] bg-hcblue rounded-[10px]" key={"percentageDone_" + done} style={{width: percentage+"%"}}></span>
                 </div>
             </div>
         </header>

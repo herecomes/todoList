@@ -10,14 +10,11 @@ export const TodoAddModal = ({ isModalOpen, selectedDate, handleCloseModal }: To
     const {tasks,addTask} = useTasks();
 
     if (!isModalOpen || (isModalOpen && !selectedDate) || (isModalOpen && isModalOpen != "addModal")) return null
-    console.log(selectedDate);
 
     const idOfLastTask = tasks.length ? tasks[tasks.length - 1].id + 1 : 0;
 
     const taskSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(e);
-
 
         addTask({
             id: idOfLastTask,

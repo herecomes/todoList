@@ -10,14 +10,12 @@ export const TodoEditModal = ({ isModalOpen, selectedTaskId, handleCloseModal }:
     const {tasks, editTask, toggleTask} = useTasks();
 
     if (!isModalOpen || (isModalOpen && (selectedTaskId === null || selectedTaskId === undefined)) || (isModalOpen && isModalOpen != "editModal")) return null
-    console.log(selectedTaskId);
     
     const selectedTask = tasks.find(t => t.id === selectedTaskId);
     if (!selectedTask) return null;
 
     const taskEdit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(e);
 
         editTask(
             selectedTask.id,
