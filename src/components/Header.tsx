@@ -1,5 +1,6 @@
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useTasks } from "../context/TaskContext";
+import { useState } from "react";
 
 type className = {
     className: string
@@ -7,10 +8,26 @@ type className = {
 
 export const Header = ({className}: className) => {
     const {tasks} = useTasks();
+    const [searchResult, setSearchResult] = useState<typeof tasks>();
 
     const overall = tasks.length;
     const done = tasks.filter(t => t.done === true).length;
     const percentage = (done/overall) * 100;
+
+    const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value.trim().toLowerCase();
+        if(!input) {
+            setSearchResult(undefined);
+            console.log(input);
+            return;
+        }
+        setSearchResult(() => {
+            return (
+                tasks.filter(t => (t.name.includes(input) || t.descr.includes(input)) && t)
+            );
+        });
+    }
+        console.log(searchResult);
 
     return (
         <header className={className}>
@@ -23,11 +40,21 @@ export const Header = ({className}: className) => {
                 </button>
             </div>
             <div className="center w-3/5 flex items-center">
-                <input type="text" name="search" id="search" className="p-4 bg-white w-full rounded-4xl" />
+                <input type="text" name="search" id="search" className="p-4 bg-white w-full rounded-4xl" onChange={searchChange} />
+                {
+                    searchResult?.length && (
+                        <div key="searchResult">
+                            {searchResult.map((t) => 
+                                <div key={"searcResult_" + t.id}>
+                                    {t.name}
+                                </div>
+                            )}
+                        </div> 
+                    )
+                }
             </div>
             <div className="right w-1/5 flex flex-col items-center justify-center text-white">
                 <div className="counter">
-                    {/* {done}/{overall} */}
                     {percentage === 100 ? "Great u have done all the tasks" : done + "/" + overall}
                 </div>
                 <div className={`countBar w-full h-[3px] relative ${percentage === 100 && "done"}`}>
