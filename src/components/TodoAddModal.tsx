@@ -27,15 +27,17 @@ export const TodoAddModal = ({ isModalOpen, selectedDate, handleCloseModal }: To
     }
 
     return (
-        <div className="border border-white p-5 relative">
-            <form className="flex gap-2 text-white" onSubmit={taskSubmit}>
-                <input className="border border-white" type="text" name="taskTitle" id="taskTitle" />
-                <textarea name="descr" id="descr" className="border border-white"></textarea>
-                <input type="checkbox" name="done" id="done" />
-                <label htmlFor="done">Is it done?</label>
-                <button>Submit</button>
+        <div className="border border-white pt-10 pb-10 pl-5 pr-5 relative rounded-[28px] bg-white">
+            <form className="flex flex-col gap-5 text-black" key={"newTask_"+idOfLastTask} onSubmit={taskSubmit}>
+                <input className="border border-black rounded-[28px] text-center p-3 max-w-[80vw] min-w-[600px]" type="text" name="taskTitle" id="taskTitle" placeholder="Title of the task" />
+                <textarea name="descr" id="descr" className="border border-black rounded-[28px] text-center p-3 max-w-[80vw] min-w-[600px]" placeholder="Description of the task"></textarea>
+                <div className="flex flex-row justify-center items-center gap-1">
+                    <input className="cursor-pointer w-[30px] h-[30px]" type="checkbox" name="done" id={"done_" + idOfLastTask} />
+                    <label className="cursor-pointer" htmlFor={"done_" + idOfLastTask}>Is it done?</label>
+                </div>
+                <button className="cursor-pointer border border-black rounded-[28px] text-center p-3 max-w-[80vw] min-w-[600px] hover:bg-black hover:text-white transition duration-300 ease-in-out">Submit</button>
             </form>
-            <span className="border border-white text-white absolute top-0 right-0" onClick={handleCloseModal}>close</span>
+            <span className="text-2xl text-black absolute top-1 right-2 cursor-pointer rounded-full pl-1 p-1 leading-none hover:text-red-500 transition duration-300 ease-in-out" onClick={handleCloseModal}>✕</span>
         </div>
 
     )

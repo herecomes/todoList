@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 html, body {
-  @apply p-0;
+  @apply p-0 scrollbar-gutter-stable;
 }
 html, body, #root {
   @apply min-h-screen m-0 bg-sky-950 w-full;

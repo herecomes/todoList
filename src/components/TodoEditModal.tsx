@@ -30,11 +30,11 @@ export const TodoEditModal = ({ isModalOpen, selectedTaskId, handleCloseModal }:
             <form className="flex gap-2 text-white" onSubmit={taskEdit} key={selectedTask.id}>
                 <input className="border border-white" type="text" name="taskTitle" id="taskTitle" defaultValue={selectedTask.name}/>
                 <textarea name="descr" id="descr" className="border border-white" defaultValue={selectedTask.descr}></textarea>
-                <input type="checkbox" name="done" id="done" checked={selectedTask.done} onChange={() => toggleTask(selectedTask.id)}/>
-                <label htmlFor="done">Is it done?</label>
+                <input type="checkbox" name="done" id={"done_"+selectedTask.id} checked={selectedTask.done} onChange={() => toggleTask(selectedTask.id)}/>
+                <label htmlFor={"done_"+selectedTask.id}>Is it done?</label>
                 <button>Submit</button>
             </form>
-            <span className="border border-white text-white absolute top-0 right-0" onClick={handleCloseModal}>close</span>
+            <span className="border border-white text-white absolute top-0 right-0 cursor-pointer" onClick={handleCloseModal}>close</span>
         </div>
 
     )

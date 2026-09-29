@@ -30,8 +30,8 @@ export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
             dayTasks.map((t) => {
                 return (
                     <div key={t.id} className="day-task">
-                        <span onClick={() => handleOpenEditModal(t.id)}>{t.name}</span>
-                        <input type="checkbox" name="done" id="done" checked={t.done} onChange={() => toggleTask(t.id)}/>
+                        <span key={"taskName_" + t.id} className="taskName" onClick={() => handleOpenEditModal(t.id)}>{t.name}</span>
+                        <input key={"taskDone_" + t.id} type="checkbox" name="done" id="done" checked={t.done} onChange={() => toggleTask(t.id)}/>
                     </div>
                 );
             })
@@ -40,19 +40,19 @@ export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
     return (
         <section id="weeks">
             {
-                <div className="days">
+                <div className="days grid grid-cols-7 gap-4 border-1 border-[#333537] rounded-[28px] overflow-hidden pt-[20px] pb-[20px] pl-[10px] pr-[10px]">
                     {
                         firstDayArr.map((_,i) => {
-                            return <div className="empty-day" key={"empty-" + year + "-" + monthIndex + "-" + i}>empty</div>;
+                            return <div className="empty-day flex-1" key={"empty-" + year + "-" + monthIndex + "-" + i}></div>;
                         })
                     }
                     {
                         daysArr.map((d,i) => {
                             return (
-                                <div className="day" key={i}>
+                                <div className="day flex flex-col text-center border-1 border-[#333537] rounded-[18px] overflow-hidden p-3" key={i}>
                                     {d + 1}
                                     {toDoEachDay(d + 1)}
-                                    <button className="border border-white add-todo" onClick={() => clickedDate(d + 1)}>Add the task</button>
+                                    <button className="border border-white add-todo w-auto inline-block m-auto p-2 rounded-[18px] cursor-pointer mt-3" onClick={() => clickedDate(d + 1)}>Add the task</button>
                                 </div>
                             )
                         })

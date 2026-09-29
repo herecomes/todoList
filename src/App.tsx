@@ -7,7 +7,7 @@ import { TasksProvider } from './context/TaskContext.tsx'
 import { TaskStatsProvider } from './context/TaskStatsContext.tsx'
 import { Weeks } from './components/Weeks.tsx'
 import { DateProvider } from './context/DateContext.tsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TodoAddModal } from './components/TodoAddModal.tsx'
 import { TodoEditModal } from './components/TodoEditModal.tsx'
 
@@ -27,6 +27,10 @@ function App() {
   const handleCloseModal = () => {
     setIsModalOpen("");
   }
+  const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
+  useEffect(() => {
+    document.body.classList.toggle("overflow-hidden");
+  }, [isModalOpen]);
 
   return (
     <TasksProvider>
@@ -41,7 +45,7 @@ function App() {
               </div>
               <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
             </div>
-            <div className="modal">
+            <div className={`modal justify-center items-center absolute inset-[0px] w-full h-full bg-black/60 ${isModalOpen ? "flex active" : "hidden"}`}>
               <TodoAddModal isModalOpen={isModalOpen} selectedDate={selectedDate} handleCloseModal={handleCloseModal}/>
               <TodoEditModal isModalOpen={isModalOpen} selectedTaskId={selectedTaskId} handleCloseModal={handleCloseModal}/>
             </div>
