@@ -8,13 +8,13 @@ export const Footer = ({className}: className) => {
     return (
         <footer className={className}>
             <div className="links flex flex-row justify-evenly w-[300px]">
-                <a href="">
+                <a href="https://www.linkedin.com/in/alik-mukhammad/">
                     <FaLinkedin className="w-[70px] h-[70px]"/>
                 </a>
-                <a href="">
+                <a href="https://github.com/herecomes">
                     <FaGithub className="w-[70px] h-[70px]"/>
                 </a>
-                <a href="">
+                <a href="mailto:alikclown@gmail.com">
                     <FaEnvelope className="w-[70px] h-[70px]"/>
                 </a>
             </div>

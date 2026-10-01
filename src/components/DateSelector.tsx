@@ -13,20 +13,20 @@ export const DateSelector = () => {
     const {monthIndex, year, changeMonth, changeYear} = useDate();
 
     return (
-        <section id="date_selector">
+        <section id="date_selector" className="text-right mb-5">
             <select name="month" id="month" value={monthIndex} onChange={changeMonth}>
-                <option value="" disabled>Select a Month</option>
+                <option className="text-black" value="" disabled>Select a Month</option>
                 {
                     months.map((m, i) => (
-                        <option value={i} key={m}>{m}</option>
+                        <option className="text-black" value={i} key={m}>{m}</option>
                     ))
                 }
             </select>
             <select name="year" id="year" value={year} onChange={changeYear}>
-                <option value="">Select a Year</option>
+                <option className="text-black" value="" disabled>Select a Year</option>
                 {
                     years.map((y) => (
-                        <option value={y} key={y}>{y}</option>
+                        <option className="text-black" value={y} key={y}>{y}</option>
                     ))
                 }
             </select>

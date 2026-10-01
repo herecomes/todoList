@@ -38,14 +38,14 @@ function App() {
         <DateProvider>
           <ErrorBoundary>
             <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
-              <Header className="pb-4 flex flex-row justify-between" />
+              <Header className="pb-4 flex flex-row justify-between" handleOpenEditModal={handleOpenEditModal}/>
               <div className="flex-grow text-white">
                 <DateSelector />
                 <Weeks handleOpenAddModal={handleOpenAddModal} handleOpenEditModal={handleOpenEditModal}/>
               </div>
               <Footer className="pt-4 flex flex-col justify-center items-center text-white" />
             </div>
-            <div className={`modal justify-center items-center absolute inset-[0px] w-full h-full bg-black/60 ${isModalOpen ? "flex active" : "hidden"}`}>
+            <div style={{ width: `calc(100% + ${scrollWidth}px)` }} className={`modal justify-center items-center fixed inset-[0px] h-full bg-black/60 ${isModalOpen ? "flex active" : "hidden"}`}>
               <TodoAddModal isModalOpen={isModalOpen} selectedDate={selectedDate} handleCloseModal={handleCloseModal}/>
               <TodoEditModal isModalOpen={isModalOpen} selectedTaskId={selectedTaskId} handleCloseModal={handleCloseModal}/>
             </div>
