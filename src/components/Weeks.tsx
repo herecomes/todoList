@@ -15,7 +15,6 @@ export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
     const firstDay = ((new Date(year, monthIndex, 1).getDay()) + 6) % 7;
     const firstDayArr = Array.from({ length: firstDay }, (_, i) => i);
     const clickedDate = (i: number) => {
-        // const dateClicked = new Date(year, monthIndex, i);
         const dateClicked = DateTime.local(year, monthIndex + 1, i).toISO();
         handleOpenAddModal(dateClicked ? dateClicked : DateTime.now().toISO());
     }
@@ -40,10 +39,10 @@ export const Weeks = ({handleOpenAddModal,handleOpenEditModal}: WeeksProps) => {
     return (
         <section id="weeks">
             {
-                <div className="days grid grid-cols-7 items-start gap-4 border-1 border-[#333537] rounded-[28px] overflow-hidden pt-[20px] pb-[20px] pl-[10px] pr-[10px]">
+                <div className="days grid grid-cols-1 md:grid-cols-2 xl:grid-cols-7 items-start gap-4 border-1 border-[#333537] rounded-[28px] overflow-hidden pt-[20px] pb-[20px] pl-[10px] pr-[10px]">
                     {
                         firstDayArr.map((_,i) => {
-                            return <div className="empty-day flex-1" key={"empty-" + year + "-" + monthIndex + "-" + i}></div>;
+                            return <div className="empty-day flex-1 hidden xl:flex" key={"empty-" + year + "-" + monthIndex + "-" + i}></div>;
                         })
                     }
                     {

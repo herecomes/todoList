@@ -38,7 +38,7 @@ function App() {
         <DateProvider>
           <ErrorBoundary>
             <div className="bg-black App flex flex-col min-h-screen w-full rounded-4xl border-1 border-hcblue shadow-[0_0_5px_rgba(42,60,173,1)] p-4 overflow-hidden">
-              <Header className="pb-4 flex flex-row justify-between" handleOpenEditModal={handleOpenEditModal}/>
+              <Header className="pb-4 flex flex-wrap lg:flex-nowrap items-center lg:flex-row justify-between" handleOpenEditModal={handleOpenEditModal}/>
               <div className="flex-grow text-white">
                 <DateSelector />
                 <Weeks handleOpenAddModal={handleOpenAddModal} handleOpenEditModal={handleOpenEditModal}/>
